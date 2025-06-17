@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>All Bookings</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #6c757d;
+            color: white;
+            margin-bottom: 20px;
+        }
+        nav {
+            background-color: #eee;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #333;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #ddd;
+        }
+        table {
+            width: 90%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .seat-label {
+            display: inline-block;
+            background-color: #007bff;
+            color: white;
+            padding: 5px 8px;
+            border-radius: 3px;
+            margin-right: 5px;
+            font-size: 0.9em;
+       }
+    </style>
+</head>
+<body>
+    <h2>All Bookings</h2>
+    <nav>
+        <a th:href="@{/admin/movies}">Movies</a> |
+        <a th:href="@{/admin/showtimes}">Showtimes</a> |
+        <a th:href="@{/admin/bookings}">All Bookings</a> |
+        <a th:href="@{/logout}">Logout</a>
+    </nav>
+    <table>
+        <thead>
+            <tr>
+                <th>User</th>
+                <th>Movie</th>
+                <th>Showtime</th>
+                <th>Seats</th>
+                <th>Booked At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="booking : ${bookings}">
+                <td th:text="${booking.user.username}">User</td>
+                <td th:text="${booking.showTime.movie.title}">Movie</td>
+                <td th:text="${booking.showTime.showTime}">DateTime</td>
+                <td>
+                    <span th:each="seat : ${booking.seats}" class="seat-label" th:text="${seat.seatNumber}">A1</span>
+                </td>
+                <td th:text="${booking.bookingTime}">Time</td>
+            </tr>
+            <tr th:if="${bookings.isEmpty()}">
+                <td colspan="5" style="text-align: center; padding: 20px; font-style: italic;">No bookings found.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        console.log("Admin all bookings page loaded.");
+    </script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Select Seats</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h2 {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #007bff;
+            color: white;
+            margin-bottom: 20px;
+        }
+        nav {
+            background-color: #eee;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #333;
+            text-decoration: none;
+            padding: 10px 15px;
+            margin: 0 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #ddd;
+        }
+        h3 {
+            margin-left: 20px;
+            color: #555;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        button[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #1e7e34;
+        }
+        .booked {
+            color: red;
+            font-weight: bold;
+        }
+        .available {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select Seats for <span th:text="${showTime.movie.title}">Movie</span> on
+        <span th:text="${showTime.showTime}">DateTime</span></h2>
+    <nav>
+        <a th:href="@{/user/home}">Home</a> |
+        <a th:href="@{/user/bookings}">My Bookings</a> |
+        <a th:href="@{/logout}">Logout</a>      
+    </nav>
+    <form th:action="@{/user/book}" method="post">
+        <input type="hidden" name="showTimeId" th:value="${showTime.id}" />
+        <table>
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Seat</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="seat : ${seats}">
+                    <td>
+                        <input type="checkbox" name="seatIds" th:value="${seat.id}" th:disabled="${seat.booked}" />
+                    </td>
+                    <td th:text="${seat.seatNumber}">A1</td>
+                    <td th:text="${seat.booked ? 'Booked' : 'Available'}">Status</td>
+                </tr>
+            </tbody>
+        </table>
+        <button type="submit">Book Selected Seats</button>
+    </form>
+    <script>
+        console.log("Seat selection page loaded.");
+    </script>
+</body>
+</html>
